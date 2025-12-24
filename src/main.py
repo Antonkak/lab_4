@@ -1,20 +1,15 @@
-from src.power import power_function
-from src.constants import SAMPLE_CONSTANT
+import typer
+from src.simulation import run_simulation
 
+app = typer.Typer()
 
-def main() -> None:
-    """
-    Обязательнная составляющая программ, которые сдаются. Является точкой входа в приложение
-    :return: Данная функция ничего не возвращает
-    """
+@app.command()
+def simulate(
+    steps: int = typer.Option(20, "--steps", help="Number of simulation steps"),
+    seed: int = typer.Option(None, "--seed", help="Random seed for reproducibility")
+):
+    run_simulation(steps=steps, seed=seed)
 
-    target, degree = map(int, input("Введите два числа разделенные пробелом: ").split(" "))
-
-    result = power_function(target=target, power=degree)
-
-    print(result)
-
-    print(SAMPLE_CONSTANT)
 
 if __name__ == "__main__":
-    main()
+    app()
