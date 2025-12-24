@@ -55,3 +55,20 @@ class IndexDict:
 
     def find_by_year(self, year: int) -> list[Book]:
         return self.year_index.get(year, [])
+    def __len__(self) -> int:
+        return len(self.isbn_index)
+    def __iter__(self):
+        return iter(self.isbn_index.values())
+    def __getitem__(self, key: Union[str, int, slice]):
+        if isinstance(key, str):
+            if key not in self.isbn_index:
+                raise KeyError(f"Book with ISBN {key} not found")
+            return self.isbn_index[key]
+        elif isinstance(key, int):
+            books = list(self.isbn_index.values())
+            return books[key]
+        elif isinstance(key, slice):
+            books = list(self.isbn_index.values())
+            return books[key]
+        else:
+            raise TypeError(f"Invalid key type: {type(key)}")
